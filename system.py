@@ -4,7 +4,7 @@ class Student:
         self.name = name
         self.student_id = student_id
         self.number = number
-        self.email = email
+        self.email = emaip
         self.attendance = []
 
     def mark_attendance(self, status):
