@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Student Attendance Management</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 20px;
+    }
+    h1 {
+        text-align: center;
+    }
+    form {
+        max-width: 500px;
+        margin: 0 auto;
+    }
+    input[type="text"],
+    input[type="number"] {
+        width: 100%;
+        padding: 10px;
+        margin: 5px 0;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+    input[type="submit"] {
+        width: 100%;
+        background-color: #4CAF50;
+        color: white;
+        padding: 14px 20px;
+        margin: 8px 0;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+    input[type="submit"]:hover {
+        background-color: #45a049;
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    th, td {
+        padding: 8px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
+    th {
+        background-color: #4CAF50;
+        color: white;
+    }
+    .low-attendance {
+        background-color: #FFC107;
+    }
+</style>
+</head>
+<body>
+<h1>Student Attendance Management</h1>
+<form id="studentForm">
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="name" required><br>
+    <label for="id">ID:</label>
+    <input type="text" id="id" name="id" required><br>
+    <label for="mobile">Mobile Number:</label>
+    <input type="text" id="mobile" name="mobile" required><br>
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email" required><br>
+    <input type="submit" value="Add Student">
+</form>
+<br>
+<h2>Student Attendance</h2>
+<table id="attendanceTable">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>ID</th>
+            <th>Mobile Number</th>
+            <th>Email</th>
+            <th>Attendance</th>
+            <th>Mark Attendance</th>
+        </tr>
+    </thead>
+    <tbody id="attendanceBody">
+    </tbody>
+</table>
+
+<script>
+    const studentForm = document.getElementById('studentForm');
+    const attendanceTable = document.getElementById('attendanceTable');
+    const attendanceBody = document.getElementById('attendanceBody');
+    let students = [];
+
+    studentForm.addEventListener('submit', function(event) {
+        event.preventDefault();
+        const name = document.getElementById('name').value;
+        const id = document.getElementById('id').value;
+        const mobile = document.getElementById('mobile').value;
+        const email = document.getElementById('email').value;
+
+        const student = {
+            name: name,
+            id: id,
+            mobile: mobile,
+            email: email,
+            attendance: []
+        };
+
+        students.push(student);
+        renderAttendance();
+        studentForm.reset();
+    });
+
+    function renderAttendance() {
+        attendanceBody.innerHTML = '';
+        students.forEach(function(student, index) {
+            const row = document.createElement('tr');
+            const attendance = student.attendance.length > 0 ? ((student.attendance.filter(status => status === 'P').length / student.attendance.length) * 100).toFixed(2) : 0;
+
+            row.innerHTML = `
+                <td>${student.name}</td>
+                <td>${student.id}</td>
+                <td>${student.mobile}</td>
+                <td>${student.email}</td>
+                <td class="${attendance < 80 ? 'low-attendance' : ''}">${attendance}%</td>
+                <td><button onclick="markAttendance(${index})">Mark</button></td>
+            `;
+
+            attendanceBody.appendChild(row);
+        });
+    }
+
+    function markAttendance(index) {
+        const status = prompt("Enter attendance status (P for Present, A for Absent):").toUpperCase();
+        if (status === 'P' || status === 'A') {
+            students[index].attendance.push(status);
+            renderAttendance();
+        } else {
+            alert("Invalid attendance status. Please enter 'P' for Present or 'A' for Absent.");
+        }
+    }
+</script>
+</body>
+</html>
+
