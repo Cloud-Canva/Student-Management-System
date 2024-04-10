@@ -1,0 +1,11 @@
+NAME ID MOBILE NO EMAIL ,ATTENDANCE STATUS
+  
+STUDENT 1
+Day-1  SUVIDHI ,84,7276575975,sanchetiss@rknec.edu Present(P)  
+Day 2  SUVIDHI ,84,7276575975,sanchetiss@rknec.edu Absent(A)
+  
+STUDENT 2
+Day-1  SANJANA ,84,7276575975,kewalramanisrs@rknec.edu Present(P)
+Day 2  SANJANA ,54,7276575965,kewalramanisr@rknec.edu Present(P)
+
+  The following python code is used to enter the above data in the following manner and helps to run the command in such a way that student with the attendance less than 80% will get seperate out with the yellow color.
